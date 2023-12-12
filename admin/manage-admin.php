@@ -10,6 +10,26 @@
             echo $_SESSION['add']; // displaying session message
             unset($_SESSION['add']); // removing session message
         }
+        if (isset($_SESSION['delete'])) {
+            echo $_SESSION['delete']; // displaying session message
+            unset($_SESSION['delete']); // removing session message
+        }
+        if (isset($_SESSION['update'])) {
+            echo $_SESSION['update']; // displaying session message
+            unset($_SESSION['update']); // removing session message
+        }
+        if (isset($_SESSION['user-not-found'])) {
+            echo $_SESSION['user-not-found']; // displaying session message
+            unset($_SESSION['user-not-found']); // removing session message
+        }
+        if (isset($_SESSION['pwd-not-much'])) {
+            echo $_SESSION['pwd-not-much']; // displaying session message
+            unset($_SESSION['pwd-not-much']); // removing session message
+        }
+        if (isset($_SESSION['change-pwd'])) {
+            echo $_SESSION['change-pwd']; // displaying session message
+            unset($_SESSION['change-pwd']); // removing session message
+        }
         ?>
         <br /><br />
         <a href="add-admin.php" class="btn btn-primary">Add Admin</a>
@@ -52,8 +72,9 @@
                                 <td><?php echo $full_name; ?></td>
                                 <td><?php echo $username; ?></td>
                                 <td>
-                                    <a href="#" class="btn btn-secondary">Update</a>
-                                    <a href="#" class="btn btn-danger">Delete</a>
+                                    <a href="<?php echo SITEURL; ?>admin/update-password.php?id=<?php echo $id; ?>" class="btn btn-primary">Change Password</a>
+                                    <a href="<?php echo SITEURL; ?>admin/update-admin.php?id=<?php echo $id; ?>" class="btn btn-secondary">Update</a>
+                                    <a href="<?php echo SITEURL; ?>admin/delete-admin.php?id=<?php echo $id; ?>" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         </tbody>

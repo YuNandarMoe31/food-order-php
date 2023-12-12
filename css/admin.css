@@ -88,6 +88,14 @@ input {
     border: 1px solid #aaa;
 }
 
+.success {
+  color: #00b894;
+}
+
+.danger {
+  color: #d63031;
+}
+
 /* menu */
 .menu {
   border-bottom: 1px solid #aaa;
