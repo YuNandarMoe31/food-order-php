@@ -133,3 +133,11 @@ input {
   background-color: #ff7675;
   color: #fff;
 }
+
+/* login */
+.login {
+  width: 30%;
+  border: 1px solid grey;
+  margin: 5% auto;
+  padding: 2%;
+}
