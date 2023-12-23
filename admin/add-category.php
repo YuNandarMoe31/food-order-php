@@ -6,15 +6,15 @@
         <br><br>
 
         <?php
-            if(isset($_SESSION['add'])) {
-                echo $_SESSION['add'];
-                unset($_SESSION['add']);
-            }
+        if (isset($_SESSION['add'])) {
+            echo $_SESSION['add'];
+            unset($_SESSION['add']);
+        }
 
-            if(isset($_SESSION['upload'])) {
-                echo $_SESSION['upload'];
-                unset($_SESSION['upload']);
-            }
+        if (isset($_SESSION['upload'])) {
+            echo $_SESSION['upload'];
+            unset($_SESSION['upload']);
+        }
         ?>
 
         <br>
@@ -37,8 +37,8 @@
                 <tr>
                     <td>Featured:</td>
                     <td>
-                        <input type="radio" name="featured" placeholder="Yes"> Yes
-                        <input type="radio" name="featured" placeholder="No"> No
+                        <input type="radio" name="featured" value="Yes"> Yes
+                        <input type="radio" name="featured" value="No"> No
                     </td>
                 </tr>
                 <tr>
@@ -62,13 +62,13 @@
             // 1. get the value from category form
             $title = $_POST['title'];
 
-            if(isset($_POST['featured'])) {
+            if (isset($_POST['featured'])) {
                 $featured = $_POST['featured'];
             } else {
                 $featured = "No";
             }
 
-            if(isset($_POST['active'])) {
+            if (isset($_POST['active'])) {
                 $active = $_POST['active'];
             } else {
                 $active = "No";
@@ -78,24 +78,29 @@
             // print_r($_FILES['image']);
             // die();
 
-            if(isset($_FILES['image']['name'])) {
+            if (isset($_FILES['image']['name'])) {
                 // upload the image
 
                 // to upload image we need image name, source path and destination path
                 $image_name = $_FILES['image']['name'];
-                $ext = end(explode('.', $image_name));
 
-                $image_name = "Food_Category_".rand(000, 999).'.'.$ext; //eg.Food_Category_835.jpg
+                // upload image only if image is selected
+                if ($image_name != "") {
+                    $ext = end(explode('.', $image_name));
 
-                $source_path = $_FILES['image']['tmp_name'];
-                $destination_path = "../images/category/".$image_name;
+                    $image_name = "Food_Category_" . rand(000, 999) . '.' . $ext; //eg.Food_Category_835.jpg               
 
-                // finally upload image
-                $upload = move_uploaded_file($source_path, $destination_path);
+                    $source_path = $_FILES['image']['tmp_name'];
+                    $destination_path = "../images/category/" . $image_name;
 
-                if($upload==false) {
-                    $_SESSION['upload'] = "<div class='error'>Failed to upload image</div>";
-                    header('location:'.SITEURL.'admin/add-category.php');
+                    // finally upload image
+                    $upload = move_uploaded_file($source_path, $destination_path);
+
+                    if ($upload == false) {
+                        $_SESSION['upload'] = "<div class='error'>Failed to upload image</div>";
+                        header('location:' . SITEURL . 'admin/add-category.php');
+                        die();
+                    }
                 }
             } else {
                 // don't upload image and set the image name value as blank
@@ -114,12 +119,12 @@
             $res = mysqli_query($conn, $sql);
 
             // 4. check whether the query executed or not and data added or not
-            if($res==true) {
+            if ($res == true) {
                 $_SESSION['add'] = "<div class='success'>Category Added Successfully</div>";
-                header('location:'.SITEURL.'admin/manage-category.php');
+                header('location:' . SITEURL . 'admin/manage-category.php');
             } else {
                 $_SESSION['add'] = "<div class='success'>Failed to add category</div>";
-                header('location:'.SITEURL.'admin/manage-category.php');
+                header('location:' . SITEURL . 'admin/manage-category.php');
             }
         }
 

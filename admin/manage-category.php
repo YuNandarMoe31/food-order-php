@@ -15,6 +15,37 @@
             echo $_SESSION['upload'];
             unset($_SESSION['upload']);
         }
+
+        if (isset($_SESSION['remove'])) {
+            echo $_SESSION['remove'];
+            unset($_SESSION['remove']);
+        }
+
+        if (isset($_SESSION['delete'])) {
+            echo $_SESSION['delete'];
+            unset($_SESSION['delete']);
+        }
+
+        if (isset($_SESSION['no-category'])) {
+            echo $_SESSION['no-category'];
+            unset($_SESSION['no-category']);
+        }
+
+        if (isset($_SESSION['update'])) {
+            echo $_SESSION['update'];
+            unset($_SESSION['update']);
+        }
+
+        if (isset($_SESSION['upload'])) {
+            echo $_SESSION['upload'];
+            unset($_SESSION['upload']);
+        }
+
+        
+        if (isset($_SESSION['failed-remove'])) {
+            echo $_SESSION['failed-remove'];
+            unset($_SESSION['failed-remove']);
+        }
         ?>
         <a href="<?php echo SITEURL; ?>admin/add-category.php" class="btn btn-primary">Add Category</a>
         <table class="tbl-full">
@@ -53,11 +84,11 @@
                         <td><?php echo $sn++ ?></td>
                         <td><?php echo $title ?></td>
                         <td>
-                            <?php 
-                            if($image_name!=""){
-                                ?>
-                                <img src="<?php echo SITEURL;?>images/category/<?php echo $image_name; ?>" alt="" width="100px">
-                                <?php
+                            <?php
+                            if ($image_name != "") {
+                            ?>
+                                <img src="<?php echo SITEURL; ?>images/category/<?php echo $image_name; ?>" alt="" width="100px">
+                            <?php
                             } else {
                                 echo "<div class='danger'>Image not added</div>";
                             }
@@ -66,8 +97,8 @@
                         <td><?php echo $featured ?></td>
                         <td><?php echo $active ?></td>
                         <td>
-                            <a href="#" class="btn btn-secondary">Update</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
+                            <a href="<?php SITEURL; ?>update-category.php?id=<?php echo $id ?>" class="btn btn-secondary">Update</a>
+                            <a href="<?php SITEURL; ?>delete-category.php?id=<?php echo $id ?>&image_name=<?php echo $image_name; ?>" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                 <?php
