@@ -1,120 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!-- Important to make website responsive -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Website</title>
+<?php include('partials-front/menu.php') ?>
 
-    <!-- Link our CSS file -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+<?php
+if (isset($_GET['food_id'])) {
+    $food_id = $_GET['food_id'];
 
-<body>
-    <!-- Navbar Section Starts Here -->
-    <section class="navbar">
-        <div class="container">
-            <div class="logo">
-                <a href="#" title="Logo">
-                    <img src="images/logo.png" alt="Restaurant Logo" class="img-responsive">
-                </a>
-            </div>
+    $sql = "SELECT * FROM tbl_food WHERE id=$food_id";
 
-            <div class="menu text-right">
-                <ul>
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="categories.html">Categories</a>
-                    </li>
-                    <li>
-                        <a href="foods.html">Foods</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                </ul>
-            </div>
+    $res = mysqli_query($conn, $sql);
 
-            <div class="clearfix"></div>
-        </div>
-    </section>
-    <!-- Navbar Section Ends Here -->
+    $count = mysqli_num_rows($res);
 
-    <!-- fOOD sEARCH Section Starts Here -->
-    <section class="food-search">
-        <div class="container">
-            
-            <h2 class="text-center text-white">Fill this form to confirm your order.</h2>
+    if ($count == 1) {
+        $row = mysqli_fetch_assoc($res);
 
-            <form action="#" class="order">
-                <fieldset>
-                    <legend>Selected Food</legend>
+        $title = $row['title'];
+        $price = $row['price'];
+        $image_name = $row['image_name'];
+    } else {
+        header('location:' . SITEURL);
+    }
+} else {
+    header('location:' . SITEURL);
+}
+?>
+<!-- fOOD sEARCH Section Starts Here -->
+<section class="food-search">
+    <div class="container">
 
-                    <div class="food-menu-img">
-                        <img src="images/menu-pizza.jpg" alt="Chicke Hawain Pizza" class="img-responsive img-curve">
-                    </div>
-    
-                    <div class="food-menu-desc">
-                        <h3>Food Title</h3>
-                        <p class="food-price">$2.3</p>
+        <h2 class="text-center text-white">Fill this form to confirm your order.</h2>
 
-                        <div class="order-label">Quantity</div>
-                        <input type="number" name="qty" class="input-responsive" value="1" required>
-                        
-                    </div>
+        <form action="" class="order" method="POST">
+            <fieldset>
+                <legend>Selected Food</legend>
 
-                </fieldset>
-                
-                <fieldset>
-                    <legend>Delivery Details</legend>
-                    <div class="order-label">Full Name</div>
-                    <input type="text" name="full-name" placeholder="E.g. Vijay Thapa" class="input-responsive" required>
+                <div class="food-menu-img">
+                    <?php
+                    if ($image_name == "") {
 
-                    <div class="order-label">Phone Number</div>
-                    <input type="tel" name="contact" placeholder="E.g. 9843xxxxxx" class="input-responsive" required>
+                        echo "<div class='danger'>Image not available</div>";
+                    } else {
+                    ?>
+                        <img src="<?php echo SITEURL; ?>images/food/<?php echo $image_name ?>" alt="Chicke Hawain Pizza" class="img-responsive img-curve">
+                    <?php
+                    }
+                    ?>
+                </div>
 
-                    <div class="order-label">Email</div>
-                    <input type="email" name="email" placeholder="E.g. hi@vijaythapa.com" class="input-responsive" required>
+                <div class="food-menu-desc">
+                    <h3><?php echo $title ?></h3>
+                    <input type="hidden" name="food" value="<?php echo $title ?>">
 
-                    <div class="order-label">Address</div>
-                    <textarea name="address" rows="10" placeholder="E.g. Street, City, Country" class="input-responsive" required></textarea>
+                    <p class="food-price"><?php echo $price ?></p>
+                    <input type="hidden" name="price" value="<?php echo $price ?>">
 
-                    <input type="submit" name="submit" value="Confirm Order" class="btn btn-primary">
-                </fieldset>
+                    <div class="order-label">Quantity</div>
+                    <input type="number" name="qty" class="input-responsive" value="1" required>
 
-            </form>
+                </div>
 
-        </div>
-    </section>
-    <!-- fOOD sEARCH Section Ends Here -->
+            </fieldset>
 
-    <!-- social Section Starts Here -->
-    <section class="social">
-        <div class="container text-center">
-            <ul>
-                <li>
-                    <a href="#"><img src="https://img.icons8.com/fluent/50/000000/facebook-new.png"/></a>
-                </li>
-                <li>
-                    <a href="#"><img src="https://img.icons8.com/fluent/48/000000/instagram-new.png"/></a>
-                </li>
-                <li>
-                    <a href="#"><img src="https://img.icons8.com/fluent/48/000000/twitter.png"/></a>
-                </li>
-            </ul>
-        </div>
-    </section>
-    <!-- social Section Ends Here -->
+            <fieldset>
+                <legend>Delivery Details</legend>
+                <div class="order-label">Full Name</div>
+                <input type="text" name="full-name" placeholder="E.g. Vijay Thapa" class="input-responsive" required>
 
-    <!-- footer Section Starts Here -->
-    <section class="footer">
-        <div class="container text-center">
-            <p>All rights reserved. Designed By <a href="#">Vijay Thapa</a></p>
-        </div>
-    </section>
-    <!-- footer Section Ends Here -->
+                <div class="order-label">Phone Number</div>
+                <input type="tel" name="contact" placeholder="E.g. 9843xxxxxx" class="input-responsive" required>
 
-</body>
-</html>
+                <div class="order-label">Email</div>
+                <input type="email" name="email" placeholder="E.g. hi@vijaythapa.com" class="input-responsive" required>
+
+                <div class="order-label">Address</div>
+                <textarea name="address" rows="10" placeholder="E.g. Street, City, Country" class="input-responsive" required></textarea>
+
+                <input type="submit" name="submit" value="Confirm Order" class="btn btn-primary">
+            </fieldset>
+
+        </form>
+
+        <?php
+        if (isset($_POST['submit'])) {
+            $food = $_POST['food'];
+            $price = $_POST['price'];
+            $qty = $_POST['qty'];
+            $total = $price * $qty;
+            $order_date = date("Y-m-d h:i:s", strtotime($order_date));
+            $status = "Ordered";
+            $customer_name = $_POST['full-name'];
+            $customer_contact = $_POST['contact'];
+            $customer_email = $_POST['email'];
+            $customer_address = $_POST['address'];
+
+            // save order in database
+            $sql2 = "INSERT INTO tbl_order
+            SET
+            food = '$food',
+            price = $price,
+            qty = $qty,
+            total = $total,
+            order_date = '$order_date',
+            status = '$status',
+            customer_name = '$customer_name',
+            customer_contact = '$customer_contact',
+            customer_email = '$customer_email',
+            customer_address = '$customer_address'
+            ";
+
+            $res2 = mysqli_query($conn, $sql2);
+
+            if ($res2 == true) {
+                $_SESSION['order'] = "<div class='success'>Order placed successfully.</div>";
+                header('location:' . SITEURL);
+            } else {
+                $_SESSION['order'] = "<div class='danger'>Failed to order</div>";
+                header('location:' . SITEURL);
+            }
+        }
+
+        ?>
+
+    </div>
+</section>
+<!-- fOOD sEARCH Section Ends Here -->
+
+<?php include('partials-front/footer.php') ?>
