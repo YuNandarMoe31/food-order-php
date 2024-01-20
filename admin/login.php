@@ -15,14 +15,14 @@
         <h1>Login</h1>
 
         <?php
-            if(isset($_SESSION['login'])) {
-                echo $_SESSION['login'];
-                unset($_SESSION['login']);
-            }
-            if(isset($_SESSION['no-login-message'])) {
-                echo $_SESSION['no-login-message'];
-                unset($_SESSION['no-login-message']);
-            }
+        if (isset($_SESSION['login'])) {
+            echo $_SESSION['login'];
+            unset($_SESSION['login']);
+        }
+        if (isset($_SESSION['no-login-message'])) {
+            echo $_SESSION['no-login-message'];
+            unset($_SESSION['no-login-message']);
+        }
         ?>
         <!-- Login Form Starts -->
         <form action="" method="POST">
@@ -43,29 +43,33 @@
 
 </html>
 
-<?php 
-    if(isset($_POST['submit'])) {
-        // get data from login form
-        $username = $_POST['username'];
-        $password = md5($_POST['password']);
+<?php
+if (isset($_POST['submit'])) {
+    // get data from login form
+    // $username = $_POST['username'];
+    // $password = md5($_POST['password']);
 
-        // SQL to check whether the user with username and password exists or not
-        $sql = "SELECT * FROM tbl_admin WHERE username='$username' AND password='$password'";
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $raw_password = md5($_POST['password']);
+    $password = mysqli_real_escape_string($conn, $raw_password);
 
-        // execute query
-        $data = mysqli_query($conn, $sql);
+    // SQL to check whether the user with username and password exists or not
+    $sql = "SELECT * FROM tbl_admin WHERE username='$username' AND password='$password'";
 
-        $count = mysqli_num_rows($data);
+    // execute query
+    $data = mysqli_query($conn, $sql);
 
-        if($count == 1) {
-            $_SESSION['login'] = "<div class='success'>Login successfully</div>";
-            $_SESSION['user'] = $username;
+    $count = mysqli_num_rows($data);
 
-            header('location:'.SITEURL.'admin/');
-        } else {
-            $_SESSION['login'] = "<div class='danger'>Username or password did not match</div>";
-            header('location:'.SITEURL.'admin/login.php');
-        }
+    if ($count == 1) {
+        $_SESSION['login'] = "<div class='success'>Login successfully</div>";
+        $_SESSION['user'] = $username;
+
+        header('location:' . SITEURL . 'admin/');
+    } else {
+        $_SESSION['login'] = "<div class='danger'>Username or password did not match</div>";
+        header('location:' . SITEURL . 'admin/login.php');
     }
+}
 
 ?>

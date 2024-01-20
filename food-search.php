@@ -4,7 +4,9 @@
 <section class="food-search text-center">
     <div class="container">
         <?php
-        $search = $_POST['search'];
+        // $search = $_POST['search'];
+        // sql injection
+        $search = mysqli_real_escape_string($conn, $_POST['search']);
         ?>
         <h2>Foods on Your Search <a href="#" class="text-white">"<?php echo $search ?>"</a></h2>
 
@@ -24,6 +26,8 @@
         $search = $_POST['search'];
 
         // sql query to get foods based on search keyword
+        // $search = burger'
+        // "SELECT 8 FROM tbl_food WHERE title LIKE '%%' OR description LIKE '%%'";
         $sql = "SELECT * FROM tbl_food WHERE title LIKE '%$search%' OR description LIKE '%$search%'";
 
         // execute the query
